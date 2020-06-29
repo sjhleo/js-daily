@@ -1,25 +1,48 @@
 <body>
     <div id="app">
         <h1>{{ song }}</h1>
-        <p>《{{ album.name }}》是{{ singer }}2005年11月发行的专辑</p>
+        <h1>{{ song2 }}</h1>
+        <p>{{ album.name }}是<span>{{ singer }}</span>2005年11月发行的专辑</p>
         <p>主打歌为{{ album.theme }}</p>
         <p>作词人为{{ singer }}等人。</p>
+        <p>{{albumText}}</p>
         为你弹奏肖邦的{{ album.theme }}
+        <input v-model="album.name"></input>
+        <button onclick="onChangeSong()">切歌</button>
     </div>
     <!--实现的mvvm-->
     <script src="mvvm.js"></script>
     <script>
+        let data = {     // Object.defineProperty(obj, 'song', '发如雪');
+            song: '发如雪',
+            album: {
+                name: '十一月的萧邦',
+                theme: '夜曲'
+            },
+            singer: '周杰伦'
+        };
+        let computed = {
+            albumText() {
+                return this.album.name + "-" + this.album.theme;
+            },
+            song2() {
+                return this.song;
+            }
+        };
+        let mounted = function () {
+            setTimeout(() => {
+                console.log('所有事情都搞定了');
+            }, 1000);
+        };
         // 写法和Vue一样
         let mvvm = new Mvvm({
             el: '#app',
-            data: {     // Object.defineProperty(obj, 'song', '发如雪');
-                song: '发如雪',
-                album: {
-                    name: '十一月的萧邦',
-                    theme: '夜曲'
-                },
-                singer: '周杰伦'
-            }
+            data: data,
+            computed: computed,
+            mounted: mounted
         });
+        function onChangeSong() {
+            data.song = "七里香";
+        }
     </script>
 </body>
